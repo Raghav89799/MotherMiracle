@@ -1,118 +1,154 @@
-import React, {useContext, useState} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Platform,
-  StyleSheet,
-  ScrollView
-} from 'react-native';
-import FormInput from '../components/FormInput';
-import FormButton from '../components/FormButton';
-import SocialButton from '../components/SocialButton';
-import {AuthContext} from '../navigation/AuthProvider';
+import React, { useState } from 'react'
+import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-const LoginScreen = ({navigation}) => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+const logo = require("../../assets/images/mmslogo.png")
+const facebook = require("../../assets/images/facebook.png")
+const linkedin = require("../../assets/images/instagram.png")
 
-  const {login, googleLogin, fbLogin} = useContext(AuthContext);
 
+export function LoginForm({ navigation }) {
+  const [click, setClick] = useState(false);
+  const { username, setUsername } = useState("");
+  const { password, setPassword } = useState("");
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image
-        source={require('../assets/rn-social-logo.png')}
-        style={styles.logo}
-      />
-      <Text style={styles.text}>RN Social App</Text>
+    <SafeAreaView style={styles.container}>
 
-      <FormInput
-        labelValue={email}
-        onChangeText={(userEmail) => setEmail(userEmail)}
-        placeholderText="Email"
-        iconType="user"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-
-      <FormInput
-        labelValue={password}
-        onChangeText={(userPassword) => setPassword(userPassword)}
-        placeholderText="Password"
-        iconType="lock"
-        secureTextEntry={true}
-      />
-
-      <FormButton
-        buttonTitle="Sign In"
-        onPress={() => login(email, password)}
-      />
-
-      <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
-        <Text style={styles.navButtonText}>Forgot Password?</Text>
-      </TouchableOpacity>
-
-      {Platform.OS === 'android' ? (
-        <View>
-          <SocialButton
-            buttonTitle="Sign In with Facebook"
-            btnType="facebook"
-            color="#4867aa"
-            backgroundColor="#e6eaf4"
-            onPress={() => fbLogin()}
-          />
-
-          <SocialButton
-            buttonTitle="Sign In with Google"
-            btnType="google"
-            color="#de4d41"
-            backgroundColor="#f5e7ea"
-            onPress={() => googleLogin()}
-          />
+      <Image source={logo} style={styles.image} resizeMode='contain' />
+      <Text style={styles.title}>Login</Text>
+      <View style={styles.inputView}>
+        <TextInput style={styles.input} placeholder='EMAIL OR USERNAME' value={username} onChangeText={setUsername} autoCorrect={false}
+          autoCapitalize='none' />
+        <TextInput style={styles.input} placeholder='PASSWORD' secureTextEntry value={password} onChangeText={setPassword} autoCorrect={false}
+          autoCapitalize='none' />
+      </View>
+      <View style={styles.rememberView}>
+        <View style={styles.switch}>
+          <Switch value={click} onValueChange={setClick} trackColor={{ true: "green", false: "gray" }} />
+          <Text style={styles.rememberText}>Remember Me</Text>
         </View>
-      ) : null}
+        <View>
+          <Pressable onPress={() => Alert.alert("Forget Password!")}>
+            <Text style={styles.forgetText}>Forgot Password?</Text>
+          </Pressable>
+        </View>
+      </View>
 
-      <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={() => navigation.navigate('Signup')}>
-        <Text style={styles.navButtonText}>
-          Don't have an acount? Create here
-        </Text>
-      </TouchableOpacity>
-    </ScrollView>
-  );
-};
+      <View style={styles.buttonView}>
+        <Pressable style={styles.button} onPress={() => Alert.alert("Login Successfuly!", "see you")}>
+          <Text style={styles.buttonText}>LOGIN</Text>
+        </Pressable>
+        <Text style={styles.optionsText}>OR LOGIN WITH</Text>
+      </View>
 
-export default LoginScreen;
+      <View style={styles.mediaIcons}>
+        <Image source={facebook} style={styles.icons} />
+        <Image source={linkedin} style={styles.icons} />
+      </View>
+
+      <Text style={styles.footerText}>Don't Have Account?<Text style={styles.signup} onPress={() => navigation.navigate('Details')}>  Sign Up</Text></Text>
+
+
+    </SafeAreaView>
+  )
+}
+
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    paddingTop: 50
+    alignItems: "center",
+    paddingTop: 70,
   },
-  logo: {
-    height: 150,
-    width: 150,
-    resizeMode: 'cover',
+  image: {
+    height: 100,
+    width: 300
   },
-  text: {
-    fontFamily: 'Kufam-SemiBoldItalic',
-    fontSize: 28,
-    marginBottom: 10,
-    color: '#051d5f',
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    textAlign: "center",
+    paddingVertical: 40,
+    color: "red"
   },
-  navButton: {
-    marginTop: 15,
+  inputView: {
+    gap: 15,
+    width: "100%",
+    paddingHorizontal: 40,
+    marginBottom: 5
   },
-  forgotButton: {
-    marginVertical: 35,
+  input: {
+    height: 50,
+    paddingHorizontal: 20,
+    borderColor: "red",
+    borderWidth: 1,
+    borderRadius: 7
   },
-  navButtonText: {
+  rememberView: {
+    width: "100%",
+    paddingHorizontal: 50,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    marginBottom: 8
+  },
+  switch: {
+    flexDirection: "row",
+    gap: 1,
+    justifyContent: "center",
+    alignItems: "center"
+
+  },
+  rememberText: {
+    fontSize: 13
+  },
+  forgetText: {
+    fontSize: 11,
+    color: "red"
+  },
+  button: {
+    backgroundColor: "red",
+    height: 45,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  buttonText: {
+    color: "white",
     fontSize: 18,
-    fontWeight: '500',
-    color: '#2e64e5',
-    fontFam
+    fontWeight: "bold"
+  },
+  buttonView: {
+    width: "100%",
+    paddingHorizontal: 50
+  },
+  optionsText: {
+    textAlign: "center",
+    paddingVertical: 10,
+    color: "gray",
+    fontSize: 13,
+    marginBottom: 6
+  },
+  mediaIcons: {
+    flexDirection: "row",
+    gap: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 23
+  },
+  icons: {
+    width: 40,
+    height: 40,
+  },
+  footerText: {
+    textAlign: "center",
+    color: "gray",
+  },
+  signup: {
+    color: "red",
+    fontSize: 13
+  }
+})

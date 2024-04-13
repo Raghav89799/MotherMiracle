@@ -7,9 +7,9 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/mmslogo/png",
+      "image": "./assets/images/mmslogo.png",
       "resizeMode": "center",
-      "backgroundColor": "#FEF9B0"
+      "backgroundColor": "#FFFFFF"
     },
     "assetBundlePatterns": [
       "**/*"
