@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const logo = require("../../assets/images/mmslogo.png")
 const facebook = require("../../assets/images/facebook.png")
 const linkedin = require("../../assets/images/instagram.png")
 
 
-export function LoginForm({ navigation }) {
+export function LoginForm() {
   const [click, setClick] = useState(false);
   const { username, setUsername } = useState("");
   const { password, setPassword } = useState("");
@@ -47,7 +45,7 @@ export function LoginForm({ navigation }) {
         <Image source={linkedin} style={styles.icons} />
       </View>
 
-      <Text style={styles.footerText}>Don't Have Account?<Text style={styles.signup} onPress={() => navigation.navigate('Details')}>  Sign Up</Text></Text>
+      <Text style={styles.footerText}>Don't Have Account?<Text style={styles.signup}>  Sign Up</Text></Text>
 
 
     </SafeAreaView>
