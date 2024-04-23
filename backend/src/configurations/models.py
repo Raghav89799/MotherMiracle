@@ -88,4 +88,16 @@ class MyUser(AbstractBaseUser):
         return self.is_admin
 
 
+class Student(models.Model):
+    user = models.ForeignKey(MyUser,on_delete=models.CASCADE)
+    name = models.CharField(max_length=255,null=True,blank=True)
+    grade = models.IntegerField(null=True,blank=True)
+    age = models.IntegerField(null=True,blank=True)
+    roll_no = models.IntegerField(null=True,blank=True)
+    dob = models.DateField(null=True,blank=True)
+    address = models.CharField(max_length=255,null=True,blank=True)
+    adhar_number = models.IntegerField(null=True,blank=True)
+    adhar_image = models.ImageField(null=True,blank=True,upload_to='images')
 
+    def __str__(self):
+        return self.name
